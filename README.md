@@ -24,3 +24,17 @@ to create a folder `pretrained-model` and put the downloaded model inside.
 ## Acknowledgement
 
 Our code adapts the training structure of [GReaT](https://github.com/kathrinse/be_great/tree/main). Also thanks HuggingFace for their LLM model. 
+
+## Citation
+
+Please use following bibtex to cite this paper:
+```
+@misc{zhao2023tabula,
+      title={TabuLa: Harnessing Language Models for Tabular Data Synthesis}, 
+      author={Zilong Zhao and Robert Birke and Lydia Chen},
+      year={2023},
+      eprint={2310.12746},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
