@@ -1,6 +1,6 @@
 # Tabula 
 The code is for paper "TabuLa: Harnessing Language Models for Tabular Data Synthesis". Tabula improves tabular data synthesis by leveraging language model 
-structures without the burden of pre-trained model weights. It offers a faster training process by preprocessing tabular datato shorten token sequence, which 
+structures without the burden of pre-trained model weights. It offers a faster training process by preprocessing tabular data to shorten token sequence, which 
 sharply reducing training time while consistently delivering higher-quality synthetic data.
 ## Prerequisite
 
