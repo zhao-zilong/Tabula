@@ -6,6 +6,7 @@ import logging
 
 import numpy as np
 import pandas as pd
+from sklearn import preprocessing
 
 from tqdm import tqdm
 import torch
@@ -44,7 +45,7 @@ class Tabula:
     """
 
     def __init__(self, llm: str, experiment_dir: str = "trainer_tabula", epochs: int = 100,
-                 batch_size: int = 8, **train_kwargs):
+                 batch_size: int = 8, categorical_columns: list = [], **train_kwargs):
         """ Initializes Tabula.
 
         Args:
@@ -67,13 +68,39 @@ class Tabula:
         self.experiment_dir = experiment_dir
         self.epochs = epochs
         self.batch_size = batch_size
+        self.categorical_columns = categorical_columns
         self.train_hyperparameters = train_kwargs
-
+        
         # Needed for the sampling process
         self.columns = None
         self.num_cols = None
         self.conditional_col = None
         self.conditional_col_dist = None
+
+    def encode_categorical_column(self, data: pd.DataFrame):
+        self.label_encoder_list = []
+        for column_index, column in enumerate(data.columns):            
+            if column in self.categorical_columns:        
+                label_encoder = preprocessing.LabelEncoder()
+                data[column] = data[column].astype(str)
+                label_encoder.fit(data[column])
+                current_label_encoder = dict()
+                current_label_encoder['column'] = column
+                current_label_encoder['label_encoder'] = label_encoder
+                transformed_column = label_encoder.transform(data[column])
+                data[column] = transformed_column
+                self.label_encoder_list.append(current_label_encoder)
+        return data
+    
+
+    def decode_categorical_column(self, data: pd.DataFrame):
+        for i in range(len(self.label_encoder_list)):
+            le = self.label_encoder_list[i]["label_encoder"]
+            data[self.label_encoder_list[i]["column"]] = data[self.label_encoder_list[i]["column"]].astype(int)
+            data[self.label_encoder_list[i]["column"]] = le.inverse_transform(data[self.label_encoder_list[i]["column"]])
+        return data
+
+
 
     def fit(self, data: tp.Union[pd.DataFrame, np.ndarray], column_names: tp.Optional[tp.List[str]] = None,
             conditional_col: tp.Optional[str] = None, resume_from_checkpoint: tp.Union[bool, str] = False) \
@@ -95,6 +122,10 @@ class Tabula:
         df = _array_to_dataframe(data, columns=column_names)
         self._update_column_information(df)
         self._update_conditional_information(df, conditional_col)
+
+        # encoding text to ID for categorical column
+        if self.categorical_columns != []:
+            df = self.encode_categorical_column(df)
 
         # Convert DataFrame into HuggingFace dataset object
         logging.info("Convert data into HuggingFace dataset object...")
@@ -176,8 +207,14 @@ class Tabula:
                 pbar.update(df_gen.shape[0] - already_generated)
                 already_generated = df_gen.shape[0]
 
+
         df_gen = df_gen.reset_index(drop=True)
-        return df_gen.head(n_samples)
+
+        if self.categorical_columns == []:
+            return df_gen.head(n_samples)
+        else:
+            df_inversed = self.decode_categorical_column(df_gen.head(n_samples))
+            return df_inversed
 
     def tabula_sample(self, starting_prompts: tp.Union[str, list[str]], temperature: float = 0.7, max_length: int = 100,
                      device: str = "cuda") -> pd.DataFrame:
