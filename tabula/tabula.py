@@ -94,10 +94,25 @@ class Tabula:
     
 
     def decode_categorical_column(self, data: pd.DataFrame):
+
+        for i in range(len(self.label_encoder_list)):
+            le = self.label_encoder_list[i]["label_encoder"]
+            allowed_values = list(range(len(le.classes_)))
+            
+            # delete rows that should generate numeric value but generate other data type
+            data[self.label_encoder_list[i]['column']] = pd.to_numeric(data[self.label_encoder_list[i]['column']], errors='coerce')
+            data = data.dropna(subst=[self.label_encoder_list[i]['column']])
+
+            # delete rows that generate category that is out of boundary
+            data[self.label_encoder_list[i]['column']] = data[self.label_encoder_list[i]['column']].astype(float)
+            data = data[data[self.label_encoder_list[i]['column']].isin(allowed_values)]
+
+
         for i in range(len(self.label_encoder_list)):
             le = self.label_encoder_list[i]["label_encoder"]
             data[self.label_encoder_list[i]["column"]] = data[self.label_encoder_list[i]["column"]].astype(int)
             data[self.label_encoder_list[i]["column"]] = le.inverse_transform(data[self.label_encoder_list[i]["column"]])
+            
         return data
 
 
