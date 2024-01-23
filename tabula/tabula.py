@@ -101,7 +101,7 @@ class Tabula:
             
             # delete rows that should generate numeric value but generate other data type
             data[self.label_encoder_list[i]['column']] = pd.to_numeric(data[self.label_encoder_list[i]['column']], errors='coerce')
-            data = data.dropna(subst=[self.label_encoder_list[i]['column']])
+            data = data.dropna(subset=[self.label_encoder_list[i]['column']])
 
             # delete rows that generate category that is out of boundary
             data[self.label_encoder_list[i]['column']] = data[self.label_encoder_list[i]['column']].astype(float)
