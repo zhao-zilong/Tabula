@@ -17,8 +17,8 @@ transformers >= 4.22.1
 
 ## Tabula quickstart  
 Follow the python notebook `Tabula_on_insurance_dataset.ipynb` for a training example with Insurance dataset. The Insurance dataset is also provided within the code. We do not
-hold the copyright of the dataset, the original dataset can also be download [here](https://www.kaggle.com/datasets/mirichoi0218/insurance). To download the pre-trained model on intrusion dataset as used in the paper. 
-Download [here](https://drive.google.com/file/d/1BJ9shdCzOyMaXClB8oSIzyfjdjvjP8b-/view?usp=share_link). Do not forget 
+hold the copyright of the dataset, the original dataset can also be download [here](https://www.kaggle.com/datasets/mirichoi0218/insurance). To download the pre-trained model on intrusion dataset as used in the paper, 
+download [here](https://drive.google.com/file/d/1_YxelekxY5MXhgn93MYgsZEEfBYAy7h6/view?usp=sharing) . Do not forget 
 to create a folder `pretrained-model` and put the downloaded model inside.
 
 ## Acknowledgement
