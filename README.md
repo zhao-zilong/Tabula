@@ -21,6 +21,10 @@ hold the copyright of the dataset, the original dataset can also be download [he
 download [here](https://drive.google.com/file/d/1_YxelekxY5MXhgn93MYgsZEEfBYAy7h6/view?usp=sharing) . Do not forget 
 to create a folder `pretrained-model` and put the downloaded model inside.
 
+## Problems about generation
+Since we published the code, we received several emails or open issues on the generation using Tabula folder. The problem is related to the **max_length** arugment in `sample` function. The default length is 100, but the encoded data is longer than 100 tokens for a dataset with a large number of columns. In that case, users need to increase this number to allow Tabula to generate enough length of tokens for each row.
+
+
 ## Acknowledgement
 
 Our code adapts the training structure of [GReaT](https://github.com/kathrinse/be_great/tree/main). Also thanks HuggingFace for their LLM model. 
