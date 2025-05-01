@@ -22,8 +22,10 @@ download [here](https://drive.google.com/file/d/1_YxelekxY5MXhgn93MYgsZEEfBYAy7h
 to create a folder `pretrained-model` and put the downloaded model inside.
 
 ## Problems about generation
+### max_length issue
 Since we published the code, we received several emails or open issues on the generation using Tabula folder. The problem is related to the **max_length** argument in `sample` function. The default length is 100, but the encoded data is longer than 100 tokens for a dataset with a large number of columns. In that case, users need to increase this number to allow Tabula to generate enough length of tokens for each row.
-
+### column name issue
+Please make sure your column name does not contain spaces. If you have a column named "A B", please rename it "A_B".
 
 ## Acknowledgement
 
