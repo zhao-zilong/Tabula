@@ -35,12 +35,12 @@ Our code adapts the training structure of [GReaT](https://github.com/kathrinse/b
 
 Please use following bibtex to cite this paper:
 ```
-@misc{zhao2023tabula,
-      title={TabuLa: Harnessing Language Models for Tabular Data Synthesis}, 
-      author={Zilong Zhao and Robert Birke and Lydia Chen},
-      year={2023},
-      eprint={2310.12746},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
+@inproceedings{zhao2025tabula,
+  title={Tabula: Harnessing language models for tabular data synthesis},
+  author={Zhao, Zilong and Birke, Robert and Chen, Lydia Y},
+  booktitle={Pacific-Asia Conference on Knowledge Discovery and Data Mining},
+  pages={247--259},
+  year={2025},
+  organization={Springer}
 }
 ```
